@@ -22,13 +22,13 @@ func main() {
     fmt.Scanln(&inputName)
 
     for stringInSlice(inputName, getDirContent()) == false {
-        fmt.Println("You either mistyped or don't own a red shirt. Try again.")
-        fmt.Scanln(&inputName)
         countFalseLogin++
-        if countFalseLogin == 2 {
+        if countFalseLogin >= 3 {
             fmt.Println("Nope.")
             return
         }
+        fmt.Println("You either mistyped or don't own a red shirt. Try again.")
+        fmt.Scanln(&inputName)
     }
 
     selectedUser = getUserData(inputName)
@@ -36,7 +36,6 @@ func main() {
     fmt.Println("Name: " +selectedUser[0])
     fmt.Println("Age: " +selectedUser[1])
     fmt.Println("Gender: " +selectedUser[2])
-
 }
 
 func listDirContent() {
