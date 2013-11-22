@@ -31,7 +31,6 @@ func main() {
         fmt.Scanln(&inputName)
         if countFalseLogin == 1 && inputName == "remindme" {
             fmt.Println("Let me help you there...")
-           // fmt.Println(getDirContent())
             listDirContent() 
         }
     }
