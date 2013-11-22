@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "io/ioutil"
+    "strings"
 )
 
 func main() {
@@ -14,6 +15,8 @@ func main() {
     listDirContent()
 
     var inputName string
+    var countFalseLogin int
+    var selectedUser []string
 
     fmt.Println("Enter your name, if you have a red shirt.")
     fmt.Scanln(&inputName)
@@ -21,8 +24,18 @@ func main() {
     for stringInSlice(inputName, getDirContent()) == false {
         fmt.Println("You either mistyped or don't own a red shirt. Try again.")
         fmt.Scanln(&inputName)
+        countFalseLogin++
+        if countFalseLogin == 2 {
+            fmt.Println("Nope.")
+            return
+        }
     }
 
+    selectedUser = getUserData(inputName)
+
+    fmt.Println("Name: " +selectedUser[0])
+    fmt.Println("Age: " +selectedUser[1])
+    fmt.Println("Gender: " +selectedUser[2])
 
 }
 
@@ -49,4 +62,14 @@ func stringInSlice(a string, list []string) bool {
         }
     }
     return false
+}
+
+func getUserData(user string) []string {
+    content, err := ioutil.ReadFile("/tmp/astronauts/"+user)
+    if err != nil {
+        fmt.Println("Error: ")
+        fmt.Println(err)
+    }
+    csvIndex := strings.Split(string(content), ",")
+    return csvIndex
 }
