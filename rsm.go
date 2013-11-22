@@ -18,17 +18,22 @@ func main() {
     var countFalseLogin int
     var selectedUser []string
 
-    fmt.Println("Enter your name, if you have a red shirt.")
+    fmt.Println("Enter your name.")
     fmt.Scanln(&inputName)
 
     for stringInSlice(inputName, getDirContent()) == false {
         countFalseLogin++
         if countFalseLogin >= 3 {
-            fmt.Println("Nope.")
+            fmt.Println("No.")
             return
         }
-        fmt.Println("You either mistyped or don't own a red shirt. Try again.")
+        fmt.Println("You either mistyped or aren't authorized. Try again.")
         fmt.Scanln(&inputName)
+        if countFalseLogin == 1 && inputName == "remindme" {
+            fmt.Println("Let me help you there...")
+           // fmt.Println(getDirContent())
+            listDirContent() 
+        }
     }
 
     selectedUser = getUserData(inputName)
