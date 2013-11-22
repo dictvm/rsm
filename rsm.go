@@ -4,19 +4,22 @@ import (
     "fmt"
     "io/ioutil"
     "strings"
+    "strconv"
 )
 
 func main() {
 
     fmt.Println("###############################################")
-    fmt.Println("########## Red Shirt Manager v0.0.1 ###########")
+    fmt.Println("########## Red Shirt Manager v0.0.2 ###########")
     fmt.Println("###############################################")
 
-    listDirContent()
-
     var inputName string
+    var inputItemNumber int
     var countFalseLogin int
     var selectedUser []string
+    var menuItem int
+    var userExistCache []string = getDirContent()
+
 
     fmt.Println("Enter your name.")
     fmt.Scanln(&inputName)
@@ -24,22 +27,35 @@ func main() {
     for stringInSlice(inputName, getDirContent()) == false {
         countFalseLogin++
         if countFalseLogin >= 3 {
-            fmt.Println("No.")
+            fmt.Println("No, go away.")
             return
         }
         fmt.Println("You either mistyped or aren't authorized. Try again.")
         fmt.Scanln(&inputName)
         if countFalseLogin == 1 && inputName == "remindme" {
             fmt.Println("Let me help you there...")
-            listDirContent() 
+            listDirContent()
+            fmt.Println("Now, try again.")
+            fmt.Scanln(&inputName)
         }
     }
 
     selectedUser = getUserData(inputName)
 
-    fmt.Println("Name: " +selectedUser[0])
-    fmt.Println("Age: " +selectedUser[1])
-    fmt.Println("Gender: " +selectedUser[2])
+    printUserData(selectedUser)
+// get list of accounts
+    for _, f := range userExistCache {
+        fmt.Println(strconv.Itoa(menuItem) +" " +f)
+        menuItem++
+    }
+
+    fmt.Println("Choose an account by its number.")
+    fmt.Scanln(&inputItemNumber)
+    for inputItemNumber >= len(userExistCache) {
+        fmt.Println("Accountnumber doesn't exist. You're an idiot.")
+        fmt.Scanln(&inputItemNumber)
+    }
+
 }
 
 func listDirContent() {
@@ -75,4 +91,12 @@ func getUserData(user string) []string {
     }
     csvIndex := strings.Split(string(content), ",")
     return csvIndex
+}
+
+func printUserData(userData []string) {
+    fmt.Println("#####################")
+    fmt.Println("Name: " +userData[0])
+    fmt.Println("Age: " +userData[1])
+    fmt.Println("Gender: " +userData[2])
+    fmt.Println("#####################")
 }
