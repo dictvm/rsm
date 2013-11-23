@@ -16,8 +16,8 @@ func main() {
     var inputItemNumber int
     var countFalseLogin int
     var selectedUser []string
-    var menuItem int
     var userExistCache []string = getDirContent()
+    var exitNow int
 
     fmt.Println("Enter your name.")
     fmt.Scanln(&inputName)
@@ -25,7 +25,7 @@ func main() {
     for stringInSlice(inputName, getDirContent()) == false {
         countFalseLogin++
         if countFalseLogin >= 3 {
-            fmt.Println("No, go away.")
+            fmt.Println("Nope, go away.")
             return
         }
         fmt.Println("You either mistyped or aren't authorized. Try again.")
@@ -43,21 +43,29 @@ func main() {
     printUserData(selectedUser)
 
 // get list of accounts
-    for _, f := range userExistCache {
-        fmt.Println(strconv.Itoa(menuItem) +" " +f)
-        menuItem++
-    }
 
-    fmt.Println("Choose an account by its number.")
-    fmt.Scanln(&inputItemNumber)
-    for inputItemNumber >= len(userExistCache) {
-        fmt.Println("Accountnumber doesn't exist.")
+    for exitNow != -1 {
+
+        for menuItem, f := range userExistCache {
+            fmt.Println(strconv.Itoa(menuItem) +" " +f)
+        }
+
+        fmt.Println("Choose an account by its number.")
         fmt.Scanln(&inputItemNumber)
+        for inputItemNumber >= len(userExistCache) && inputItemNumber != 666 {
+            fmt.Println("Accountnumber doesn't exist.")
+            fmt.Scanln(&inputItemNumber)
+        }
+
+        if inputItemNumber == -1 {
+            exitNow = inputItemNumber
+            fmt.Println("Emergency exit, huh?")
+        } else {
+            selectedUser = getUserData(userExistCache[inputItemNumber])
+            printUserData(selectedUser)
+        }
+
     }
-    selectedUser = getUserData(userExistCache[inputItemNumber])
-
-    printUserData(selectedUser)
-
 }
 
 func listDirContent() {
