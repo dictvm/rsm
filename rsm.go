@@ -11,7 +11,6 @@ func main() {
 
     fmt.Println("###############################################")
     fmt.Println("########## Red Shirt Manager v0.0.2 ###########")
-    fmt.Println("###############################################")
 
     var inputName string
     var inputItemNumber int
@@ -19,7 +18,6 @@ func main() {
     var selectedUser []string
     var menuItem int
     var userExistCache []string = getDirContent()
-
 
     fmt.Println("Enter your name.")
     fmt.Scanln(&inputName)
@@ -43,6 +41,7 @@ func main() {
     selectedUser = getUserData(inputName)
 
     printUserData(selectedUser)
+
 // get list of accounts
     for _, f := range userExistCache {
         fmt.Println(strconv.Itoa(menuItem) +" " +f)
@@ -52,9 +51,12 @@ func main() {
     fmt.Println("Choose an account by its number.")
     fmt.Scanln(&inputItemNumber)
     for inputItemNumber >= len(userExistCache) {
-        fmt.Println("Accountnumber doesn't exist. You're an idiot.")
+        fmt.Println("Accountnumber doesn't exist.")
         fmt.Scanln(&inputItemNumber)
     }
+    selectedUser = getUserData(userExistCache[inputItemNumber])
+
+    printUserData(selectedUser)
 
 }
 
